@@ -45,7 +45,7 @@ async function run() {
   } finally {
   }
 }
-// call function catch (console dir)
+
 run().catch(console.dir);
 // --------------------------------------------
 
