@@ -37,6 +37,7 @@ async function run() {
     // -------------------------------------------
 
     // Get  AP to Read by ID
+    // https://quiet-sierra-51150.herokuapp.com/inventory/626cfe0723570fa333ec7729
     app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -54,6 +55,26 @@ async function run() {
       res.send({ result: "success" });
     });
     // --------------------------------------------------------
+
+    //  Update Item Quantity data in db
+    app.put("/inventory/:id", async (req, res) => {
+      const id = req.params.id;
+      const updateItem = req.body;
+      const filter = { _id: ObjectId(id) };
+      const options = { upsert: true };
+
+      const updateDoc = {
+        $set: updateItem,
+      };
+      const result = await inventoryCollection.updateOne(
+        filter,
+        updateDoc,
+        options
+      );
+
+      res.send(result);
+    });
+    // -------------------------------------------
   } finally {
   }
 }
