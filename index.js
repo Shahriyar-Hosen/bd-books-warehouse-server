@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
-const objectId = require("mongodb").ObjectId;
 const port = process.env.PORT || 5000;
 
 // Middleware
@@ -19,10 +18,14 @@ async function run() {
     useUnifiedTopology: true,
     serverApi: ServerApiVersion.v1,
   });
+
   // try catch finally
   try {
     await client.connect();
     const inventoryCollection = client.db("warehouse").collection("inventory");
+
+    // heroku API
+    // https://quiet-sierra-51150.herokuapp.com/
 
     // Get Method to read all items
     app.get("/inventory", async (req, res) => {
@@ -33,10 +36,19 @@ async function run() {
     });
     // -------------------------------------------
 
+    // Get  AP to Read by ID
+    app.get("/inventory/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await inventoryCollection.findOne(query);
+      res.send(result);
+    });
+    // -------------------------------------------
+
     // Create POST Method items api
     app.post("/inventory", async (req, res) => {
       const newInventory = req.body;
-    //   console.log("New inventory adding ", newInventory);
+      //   console.log("New inventory adding ", newInventory);
       const result = await inventoryCollection.insertOne(newInventory);
       console.log(`Inventory insert with id: ${result.insertedId}`);
       res.send({ result: "success" });
