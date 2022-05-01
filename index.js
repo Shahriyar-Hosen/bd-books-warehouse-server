@@ -75,6 +75,7 @@ async function run() {
       res.send(result);
     });
     // -------------------------------------------
+
   } finally {
   }
 }
@@ -82,7 +83,8 @@ async function run() {
 run().catch(console.dir);
 // --------------------------------------------
 
-// http://localhost:5000/
+// localhost: http://localhost:5000/
+// heroku: https://quiet-sierra-51150.herokuapp.com/
 app.get("/", (req, res) => {
   res.send("DB Books Warehouse Server Running");
 });
