@@ -70,6 +70,14 @@ async function run() {
     });
     // -------------------------------------------
 
+        //  Get  AP to Read by  Search query
+        app.get("/inventory", async (req, res) => {
+          const query = { email: req.query.email };
+          const cursor = inventoryCollection.find(query);
+          const result = await cursor.toArray();
+          res.send(result);
+        });
+
     // Create POST Method items api
     app.post("/inventory", async (req, res) => {
       const newInventory = req.body;
