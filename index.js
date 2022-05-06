@@ -23,6 +23,9 @@ async function run() {
   try {
     await client.connect();
     const inventoryCollection = client.db("warehouse").collection("inventory");
+    const categoriesCollection = client
+      .db("warehouse")
+      .collection("categories");
 
     // heroku API
     // https://quiet-sierra-51150.herokuapp.com/
@@ -31,6 +34,15 @@ async function run() {
     app.get("/inventory", async (req, res) => {
       const query = {};
       const cursor = inventoryCollection.find(query);
+      const inventory = await cursor.toArray();
+      res.send(inventory);
+    });
+    // -------------------------------------------
+
+    // Get Method to read all categories
+    app.get("/categories", async (req, res) => {
+      const query = {};
+      const cursor = categoriesCollection.find(query);
       const inventory = await cursor.toArray();
       res.send(inventory);
     });
