@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -32,6 +33,15 @@ async function run() {
 
     // heroku API
     // https://quiet-sierra-51150.herokuapp.com/
+
+    // AUTH
+    app.post("/login", async (req, res) => {
+      const user = req.body;
+      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "1d",
+      });
+      res.send({ accessToken });
+    });
 
     // Get Method to read all items
     app.get("/inventory", async (req, res) => {
@@ -70,13 +80,13 @@ async function run() {
     });
     // -------------------------------------------
 
-        //  Get  AP to Read by  Search query
-        app.get("/inventory", async (req, res) => {
-          const query = { email: req.query.email };
-          const cursor = inventoryCollection.find(query);
-          const result = await cursor.toArray();
-          res.send(result);
-        });
+    //  Get  AP to Read by  Search query
+    app.get("/inventory", async (req, res) => {
+      const query = { email: req.query.email };
+      const cursor = inventoryCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     // Create POST Method items api
     app.post("/inventory", async (req, res) => {
