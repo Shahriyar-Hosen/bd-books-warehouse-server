@@ -81,7 +81,9 @@ async function run() {
     // -------------------------------------------
 
     //  Get  AP to Read by  Search query
-    app.get("/inventory", async (req, res) => {
+    app.get("/my-items", async (req, res) => {
+      const authHeader = req.headers.authorization;
+      console.log(authHeader);
       const query = { email: req.query.email };
       const cursor = inventoryCollection.find(query);
       const result = await cursor.toArray();
