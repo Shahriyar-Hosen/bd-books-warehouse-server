@@ -1,17 +1,23 @@
 const express = require("express");
 const app = express();
-const cors = require("cors");
+// const cors = require("cors");
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
 const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 app.use(express.json());
 // ---------------------------
 
-// test 5
+// test 6
 
 // JWT  token verify
 function verifyJWT(req, res, next) {
@@ -110,9 +116,8 @@ async function run() {
         const cursor = inventoryCollection.find(query);
         const result = await cursor.toArray();
         res.send(result);
-      }
-      else{
-        res.status(403).send({ message: "Forbidden access" })
+      } else {
+        res.status(403).send({ message: "Forbidden access" });
       }
     });
 
