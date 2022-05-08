@@ -101,10 +101,17 @@ async function run() {
 
     //  Get  AP to Read by  Search query
     app.get("/my-items", verifyJWT, async (req, res) => {
-      const query = { email: req.query.email };
-      const cursor = inventoryCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+      if (email === decodedEmail) {
+        const query = { email: email };
+        const cursor = inventoryCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+      }
+      else{
+        res.status(403).send({ message: "Forbidden access" })
+      }
     });
 
     // Create POST Method items api
