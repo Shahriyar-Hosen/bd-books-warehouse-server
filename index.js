@@ -17,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 // ---------------------------
 
-// test 7
+// error test 7
 
 // JWT  token verify
 function verifyJWT(req, res, next) {
