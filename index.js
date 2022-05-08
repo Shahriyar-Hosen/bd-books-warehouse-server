@@ -1,10 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-// const corsConfig = {
-//   origin: true,
-//   credentials: true,
-// };
 const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
@@ -12,12 +8,15 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
-// app.use(cors(corsConfig));
-// app.options("*", cors(corsConfig));
 app.use(express.json());
 // ---------------------------
 
-// error test 9
+// error solved
+// error
+// JWT ইউজ করার পরে http://localhost:5000/ দিয়ে সবকিছু কাজ করতেছে, কিন্তু heruku তে  push করার পরে heruku এর লিঙ্ক দিলে এই error দেখাচ্ছে এবং সার্ভার ক্রাশ করতেছে এবং এর কারনে আর কোন কিছু লোড হচ্ছে না।
+
+// solution
+// environment variable গুলো heroku তে ঠিক করে অ্যাড করতে ভুল হয়েছিল।
 
 // JWT  token verify
 function verifyJWT(req, res, next) {
