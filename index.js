@@ -11,6 +11,12 @@ app.use(cors());
 app.use(express.json());
 // ---------------------------
 
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  console.log("inside verifyJWT", authHeader);
+  next();
+}
+
 // async await function
 async function run() {
   const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@cluster0.hmt2r.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -81,9 +87,7 @@ async function run() {
     // -------------------------------------------
 
     //  Get  AP to Read by  Search query
-    app.get("/my-items", async (req, res) => {
-      const authHeader = req.headers.authorization;
-      console.log(authHeader);
+    app.get("/my-items", verifyJWT, async (req, res) => {
       const query = { email: req.query.email };
       const cursor = inventoryCollection.find(query);
       const result = await cursor.toArray();
