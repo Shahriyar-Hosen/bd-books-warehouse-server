@@ -1,23 +1,23 @@
 const express = require("express");
 const app = express();
-// const cors = require("cors");
-const corsConfig = {
-  origin: true,
-  credentials: true,
-};
+const cors = require("cors");
+// const corsConfig = {
+//   origin: true,
+//   credentials: true,
+// };
 const jwt = require("jsonwebtoken");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 // Middleware
-// app.use(cors());
-app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
+app.use(cors());
+// app.use(cors(corsConfig));
+// app.options("*", cors(corsConfig));
 app.use(express.json());
 // ---------------------------
 
-// test 6
+// test 7
 
 // JWT  token verify
 function verifyJWT(req, res, next) {
