@@ -90,7 +90,7 @@ async function run() {
     // -------------------------------------------
 
     // Get  AP to Read by ID
-    // https://quiet-sierra-51150.herokuapp.com/inventory/626cfe0723570fa333ec7729
+    // https://quiet-sierra-51150.herokuapp.com/inventory/${id}
     app.get("/inventory/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
@@ -117,7 +117,6 @@ async function run() {
     // Create POST Method items api
     app.post("/inventory", async (req, res) => {
       const newInventory = req.body;
-      //   console.log("New inventory adding ", newInventory);
       const result = await inventoryCollection.insertOne(newInventory);
       console.log(`Inventory insert with id: ${result.insertedId}`);
       res.send({ result: "success" });
@@ -159,8 +158,6 @@ async function run() {
 run().catch(console.dir);
 // --------------------------------------------
 
-// localhost: http://localhost:5000/
-// heroku: https://quiet-sierra-51150.herokuapp.com/
 app.get("/", (req, res) => {
   res.send("DB Books Warehouse Server Running");
 });
